@@ -1,4 +1,4 @@
-const { Engine, Render, Runner, World, Bodies, Body } = Matter;
+const { Engine, Render, Runner, World, Bodies, Body, Events } = Matter;
 
 const body = document.body;
 
@@ -160,13 +160,16 @@ const goal = Bodies.rectangle(
     unitLength * 0.7,
     unitLength * 0.7,
     {
+        label: 'goal',
         isStatic: true
     }
 );
 World.add(world, goal);
 
 // Drawing the starting BALL that begins on the top left of the maze, dynamically in size relative to the cell units
-const ball = Bodies.circle(unitLength / 2, unitLength / 2, unitLength / 4);
+const ball = Bodies.circle(unitLength / 2, unitLength / 2, unitLength / 4, {
+    label: 'ball'
+});
 World.add(world, ball);
 
 // Listen for user's keypresses to move the ball
@@ -188,4 +191,15 @@ document.addEventListener('keydown', event => {
     if (event.key === 'a') { // LEFT
         Body.setVelocity(ball, { x: x - 5, y });
     }
+});
+
+// Win Condition
+Events.on(engine, 'collisionStart', event => {
+    event.pairs.forEach((collision) => {
+        const labels = ['ball', 'goal'];
+
+        if (labels.includes(collision.bodyA.label) && labels.includes(collision.bodyB.label)) {
+            console.log('user won!');
+        }
+    });
 });
