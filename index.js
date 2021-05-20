@@ -152,7 +152,7 @@ verticals.forEach((row, rowIndex) => {
     });
 });
 
-// Drawing the success goal on the bottom right of the maze, dynamically 
+// Drawing the success GOAL on the bottom right of the maze, dynamically in size relative to the cell units
 const goal = Bodies.rectangle(
     width - unitLength / 2,
     height - unitLength / 2,
@@ -163,3 +163,7 @@ const goal = Bodies.rectangle(
     }
 );
 World.add(world, goal);
+
+// Drawing the starting BALL that begins on the top left of the maze, dynamically in size relative to the cell units
+const ball = Bodies.circle(unitLength / 2, unitLength / 2, unitLength / 4);
+World.add(world, ball);
