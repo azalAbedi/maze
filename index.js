@@ -1,4 +1,4 @@
-const { Engine, Render, Runner, World, Bodies } = Matter;
+const { Engine, Render, Runner, World, Bodies, Body } = Matter;
 
 const body = document.body;
 
@@ -9,6 +9,7 @@ const height = 600;
 const unitLength = width / cells;
 
 const engine = Engine.create();
+engine.world.gravity.y = 0; // disables gravity of the world
 const { world } = engine;
 const render = Render.create({
     element: body, 
@@ -167,3 +168,24 @@ World.add(world, goal);
 // Drawing the starting BALL that begins on the top left of the maze, dynamically in size relative to the cell units
 const ball = Bodies.circle(unitLength / 2, unitLength / 2, unitLength / 4);
 World.add(world, ball);
+
+// Listen for user's keypresses to move the ball
+document.addEventListener('keydown', event => {
+    const { x, y } = ball.velocity;
+    
+    if (event.key === 'w') { // UP
+        Body.setVelocity(ball, { x, y: y - 5 });
+    }
+
+    if (event.key === 'd') { // RIGHT
+        Body.setVelocity(ball, { x: x + 5, y });
+    }
+
+    if (event.key === 's') { // DOWN
+        Body.setVelocity(ball, { x, y: y + 5 });
+    }
+
+    if (event.key === 'a') { // LEFT
+        Body.setVelocity(ball, { x: x - 5, y });
+    }
+});
