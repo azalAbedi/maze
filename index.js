@@ -2,8 +2,8 @@ const { Engine, Render, Runner, World, Bodies, Body, Events } = Matter;
 
 const body = document.body;
 
-const cellsHorizontal = 4;
-const cellsVertical = 3;
+const cellsHorizontal = 14;
+const cellsVertical = 10;
 const width = window.innerWidth;
 const height = window.innerHeight;
 
@@ -18,7 +18,7 @@ const render = Render.create({
         // adding a place for the render object to place our world
     engine, // specify which engine to use
     options: { // specify the size of our world
-        wireframes: true,
+        wireframes: false,
         width,
         height
     }
@@ -66,7 +66,7 @@ const horizontals = Array(cellsVertical - 1).fill(null).map(() => Array(cellsHor
 const startRow = Math.floor(Math.random() * cellsVertical);
 const startColumn = Math.floor(Math.random() * cellsHorizontal);
 
-    // Algorithm to create a maze
+// Algorithm to create a maze
 const stepThroughCell = (row, column) => {
     // If I have visited the cell at (row, column), then return
     if (grid[row][column] === true) {
@@ -130,7 +130,10 @@ horizontals.forEach((row, rowIndex) => {
             5,
             {
                 label: 'wall',
-                isStatic: true
+                isStatic: true,
+                render: {
+                    fillStyle: 'red'
+                }
             }
         );
         World.add(world, wall);
@@ -150,7 +153,10 @@ verticals.forEach((row, rowIndex) => {
             unitLengthY,
             {
                 label: 'wall',
-                isStatic: true
+                isStatic: true,
+                render: {
+                    fillStyle: 'red'
+                }
             }
         );
         World.add(world, wall);
@@ -165,7 +171,10 @@ const goal = Bodies.rectangle(
     unitLengthY * 0.7,
     {
         label: 'goal',
-        isStatic: true
+        isStatic: true,
+        render: {
+            fillStyle: 'green'
+        }
     }
 );
 World.add(world, goal);
@@ -173,7 +182,10 @@ World.add(world, goal);
 // Drawing the starting BALL that begins on the top left of the maze, dynamically in size relative to the cell units
 const ballRadius = Math.min(unitLengthX, unitLengthY) / 4;
 const ball = Bodies.circle(unitLengthX / 2, unitLengthY / 2, ballRadius, {
-    label: 'ball'
+    label: 'ball',
+    render: {
+        fillStyle: 'blue'
+    }
 });
 World.add(world, ball);
 
